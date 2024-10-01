@@ -20,8 +20,15 @@ pipeline {
                     -Dsonar.projectKey=maven-jenkins-pipeline \
                     -Dsonar.host.url=http://myvmtp.eastus.cloudapp.azure.com:9999/"
             }
-    }
-}
+          }
+      }
+      stage('Quality Gate') {
+          steps {
+              timeout(time: 1, unit: 'HOURS') {
+                  waitForQualityGate abortPipeline: true
+              }
+          }
+      }
       
   }
   post { //create report
