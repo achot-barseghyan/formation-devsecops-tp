@@ -22,6 +22,13 @@ pipeline {
             }
           }
       }
+      stage('Vulnerability Scan owasp - dependency-check') {
+        steps {
+            catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
+              sh "mvn dependency-check:check"
+            }
+          }
+      }
   }
   post { //create report
         always {
