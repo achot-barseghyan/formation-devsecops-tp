@@ -7,12 +7,14 @@ pipeline {
               sh "mvn clean package -DskipTests=true"
               archive 'target/*.jar' //so that they can be downloaded later
             }
-        } 
+        }
+        //--------------------------
       stage('UNIT test & jacoco ') {
             steps {
               sh "mvn test"
             }  
         }
+        //--------------------------
           stage('Sonarqube Analysis - SAST') {
           steps {
             withSonarQubeEnv('SonarQube') {
@@ -22,6 +24,7 @@ pipeline {
             }
           }
       }
+      //--------------------------
       stage('Vulnerability Scan owasp - dependency-check') {
         steps {
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
@@ -29,6 +32,18 @@ pipeline {
             }
           }
       }
+      //--------------------------
+    stage('Docker Build and Push') {
+      steps {
+        withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'DOCKER_HUB_PASSWORD')]) {
+          sh 'sudo docker login -u haid3s -p $DOCKER_HUB_PASSWORD'
+          sh 'printenv'
+          sh 'sudo docker build -t haid3s/devops-app:""$GIT_COMMIT"" .'
+          sh 'sudo docker push haid3s/devops-app:""$GIT_COMMIT""'
+        }
+ 
+      }
+    }
   }
   post { //create report
         always {
