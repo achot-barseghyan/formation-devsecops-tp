@@ -13,16 +13,15 @@ pipeline {
               sh "mvn test"
             }  
         }
-      stage('sonarcube') {
-            steps {
-              withCredentials([string(credentialsId: 'sonar_token', variable: 'TOKEN')])
-              sh "mvn clean verify sonar:sonar \
-                  -Dsonar.projectKey=maven-jenkins-pipeline \
-                  -Dsonar.projectName='maven-jenkins-pipeline' \
-                  -Dsonar.host.url=http://myvmtp.eastus.cloudapp.azure.com:9000 \
-                  -Dsonar.token=${TOKEN}"
+          stage('Sonarqube Analysis - SAST') {
+          steps {
+            withSonarQubeEnv('SonarQube') {
+                sh "mvn sonar:sonar \
+                    -Dsonar.projectKey=maven-jenkins-pipeline \
+                    -Dsonar.host.url=http://myvmtp.eastus.cloudapp.azure.com:9999/"
             }
-          }
+    }
+}
       
   }
   post { //create report
