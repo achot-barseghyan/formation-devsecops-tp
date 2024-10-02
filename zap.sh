@@ -30,7 +30,7 @@ if [[ ${exit_code} -ne 0 ]];  then
 
     docker stop zap-report-server
 
-    docker run -d --rm --name zap-report-server -p 8888:80 -v /home/devsecops/formation-devsecops-tp/owasp-zap-report:/usr/share/nginx/html nginx
+    docker run -d --rm --name zap-report-server -p 8888:80 -v $(pwd)/owasp-zap-report:/usr/share/nginx/html nginx
 
     exit 1;
 
