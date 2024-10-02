@@ -80,22 +80,10 @@ pipeline {
       }
     }
     //--------------------------
-    stage('ZAP Scan') {
-        steps {
-            sh "sudo bash zap.sh"
-        }
-        post {
-            always {
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: false,
-                    keepAll: true,
-                    reportDir: '/var/www/html/zap-reports',
-                    reportFiles: 'latest_zap_report.html',
-                    reportName: 'ZAP Scan Report'
-                ])
-            }
-        }
+    stage('Zap report') {
+      steps {
+        sh "sudo bash zap.sh"
+      }
     }
   }
   post { //create report
