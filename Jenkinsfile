@@ -80,7 +80,7 @@ pipeline {
       }
     }
     //--------------------------
-    stage('Deployment Kubernetes  ') {
+    stage('Zap report') {
       steps {
         sh "sudo bash zap.sh"
       }
