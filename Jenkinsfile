@@ -82,7 +82,7 @@ pipeline {
     //--------------------------
     stage('ZAP Scan') {
         steps {
-            sh "sudo bash /path/to/zap_scan_script.sh"
+            sh "sudo bash zap.sh"
         }
         post {
             always {
