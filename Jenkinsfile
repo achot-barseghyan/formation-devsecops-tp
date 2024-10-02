@@ -71,7 +71,7 @@ pipeline {
       }
     }
     //--------------------------
-    stage('Deployment Kubernetes  ') {
+    stage('Deployment Kubernetes') {
       steps {
         withKubeConfig([credentialsId: 'kubeconfig']) {
               sh "sed -i 's#replace#haid3s/devops-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
@@ -80,10 +80,22 @@ pipeline {
       }
     }
     //--------------------------
-    stage('Zap report') {
-      steps {
-        sh "sudo bash zap.sh"
-      }
+    stage('ZAP Scan') {
+        steps {
+            sh "sudo bash /path/to/zap_scan_script.sh"
+        }
+        post {
+            always {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: '/var/www/html/zap-reports',
+                    reportFiles: 'latest_zap_report.html',
+                    reportName: 'ZAP Scan Report'
+                ])
+            }
+        }
     }
   }
   post { //create report
