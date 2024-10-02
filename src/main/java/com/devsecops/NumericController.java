@@ -52,7 +52,7 @@ public class NumericController {
 
 		@GetMapping("/salut/{value}")
 		public String salut(@PathVariable String value) {
-			return "salut " + value + "! Physiquement, tu m'as toujours fait penser à Stephen Hawking ; mentalement aussi depuis qu'il est mort!";
+			return "Salut " + value + "! Physiquement, tu m'as toujours fait penser à Stephen Hawking ; mentalement aussi depuis qu'il est mort!";
 		}
 	}
 
