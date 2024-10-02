@@ -52,7 +52,7 @@ public class NumericController {
 
 		@GetMapping("/salut/{value}")
 		public int salut(@PathVariable String value) {
-			return "salut" + value + "! enculé va !"
+			return "salut" + value + "! enculé va !";
 		}
 	}
 
