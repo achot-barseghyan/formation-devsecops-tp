@@ -11,7 +11,7 @@ echo $(id -u):$(id -g)
 #docker run -v /home/devsecops/formation-devsecops-tp:/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t http://mytpm.eastus.cloudapp.azure.com:30802/v3/api-docs -f openapi -r zap_report.html
 
 docker run --rm --memory=8gb -v /home/devsecops/formation-devsecops-tp:/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -I -j -m 10 -T 60 \
-  -t http://myvmtp.eastus.cloudapp.azure.com:31000/ \
+  -t http://devsecopstp1.eastus.cloudapp.azure.com:31964/v3/api-docs \
   -r zap_report.html
 
 # comment above cmd and uncomment below lines to run with CUSTOM RULES
@@ -22,7 +22,7 @@ exit_code=$?
 # HTML Report
 sudo mkdir -p owasp-zap-report
 sudo mv zap_report.html owasp-zap-report
-
+echo $(pwd)
 echo "Exit Code : $exit_code"
 if [[ ${exit_code} -ne 0 ]];  then
 
