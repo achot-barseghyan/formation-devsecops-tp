@@ -50,6 +50,11 @@ public class NumericApplicationTests {
     public void welcomeMessage() throws Exception {
          this.mockMvc.perform(get("/")).andDo(print()).andExpect(status().isOk());
     }
+
+    @Test
+    public void welcomeMessage() throws Exception {
+         this.mockMvc.perform(get("/salut/jean")).andDo(print()).andExpect(status().isOk());
+    }
     
 
 }
