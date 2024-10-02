@@ -51,7 +51,7 @@ public class NumericController {
 		}
 
 		@GetMapping("/salut/{value}")
-		public int increment(@PathVariable int value) {
+		public int increment(@PathVariable String value) {
 			return "salut" + value + "! enculé va !"
 		}
 	}
