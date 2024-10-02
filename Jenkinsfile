@@ -79,6 +79,12 @@ pipeline {
         }
       }
     }
+    //--------------------------
+    stage('Deployment Kubernetes  ') {
+      steps {
+        sh "sudo bash zap.sh"
+      }
+    }
   }
   post { //create report
         always {
