@@ -52,7 +52,7 @@ public class NumericApplicationTests {
     }
 
     @Test
-    public void welcomeMessage() throws Exception {
+    public void salut() throws Exception {
          this.mockMvc.perform(get("/salut/jean")).andDo(print()).andExpect(status().isOk());
     }
     
