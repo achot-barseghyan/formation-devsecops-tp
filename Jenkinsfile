@@ -1,9 +1,12 @@
+@Library('slack') _
+
 pipeline {
   agent any
 
   stages {
       stage('Build Artifact') {
             steps {
+              sendNotification('Deployement PIPELINE STARTED')
               sh "mvn clean package -DskipTests=true"
               archive 'target/*.jar' //so that they can be downloaded later
             }
@@ -29,10 +32,11 @@ pipeline {
         steps {
             catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
               sh "mvn dependency-check:check"
+              sendNotification('PIPELINE FAILURE : Vulnerability Scan owasp')
             }
           }
       }
-      //--------------------------
+    //--------------------------
     stage('Docker Build and Push') {
       steps {
         withCredentials([string(credentialsId: 'DOCKER_HUB_PASSWORD', variable: 'DOCKER_HUB_PASSWORD')]) {
@@ -50,6 +54,7 @@ pipeline {
 			 catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE') {
                  sh "sed -i 's#token_github#${TOKEN}#g' trivy-image-scan.sh"
                  sh "sudo bash trivy-image-scan.sh"
+                 sendNotification('PIPELINE FAILURE : Docker Trivy')
 	       }
 		    }
        }
@@ -76,6 +81,7 @@ pipeline {
         withKubeConfig([credentialsId: 'kubeconfig']) {
               sh "sed -i 's#replace#haid3s/devops-app:${GIT_COMMIT}#g' k8s_deployment_service.yaml"
               sh 'kubectl apply -f k8s_deployment_service.yaml'
+              sendNotification('PIPELINE UPDATE : Deployment Kubernetes Finished')
         }
       }
     }
