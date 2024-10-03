@@ -3,6 +3,10 @@
 pipeline {
   agent any
 
+  environment {
+        SLACK_CHANNEL = 'jenkins' // Slack channel to send notifications
+    }
+
   stages {
       stage('Build Artifact') {
             steps {
